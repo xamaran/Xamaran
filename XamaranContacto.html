@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" href="img/XamaranLogo.png" type="image/x-icon">
+  <link rel="stylesheet" href="General.css">
+  <link rel="stylesheet" href="Contacto.css">
+  <title>Contacto - Xamaran</title>
+</head>
+<body>
+  <header>
+    <h1>Contacto - Xamaran</h1>
+  </header>
+  
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="XamaranProductos.html">Productos</a>
+    <a href="XamaranContacto.html">Contacto</a>    
+    <a href="XamaranNoticias.html">Noticias</a>
+  </nav>
+  
+  <div class="map" style="margin-top:40px; text-align:center;">
+<h2 style="color:#ff3fa8; text-shadow:1px 1px 4px rgba(0,0,0,0.1);"> Nuestra Ubicación</h2>
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2901.037021288737!2d-2.849218!3d43.355336199999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd4e473e01a9076f%3A0xec26ab0cad021ead!2sXamaran!5e0!3m2!1ses!2ses!4v1765539196077!5m2!1ses!2ses" width="100%" height="350" style="border:4px solid #ff66c4; border-radius:20px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+  <div class="contact-section">
+    <h2>¡Ponte en contacto con nosotros!</h2>
+
+    <div class="contact-info">
+      <p><b>Dirección:</b> Errekatxu Kalea, 6, Bajo-Izquierda, 48100 Mungia, Bizkaia</p>
+      <p><b>Teléfono:</b> 946 06 60 39</p>
+      <p><b>Email:</b> xamarandulces@gmail.com</p>
+    </div>
+
+    <form id="contact-form">
+    <input type="text" name="from_name" placeholder="Tu nombre" required>
+    <input type="email" name="user_email" placeholder="Tu correo" required>
+    <textarea name="message" placeholder="Escribe tu mensaje"></textarea>
+    <button type="submit">Enviar Correo</button>
+</form>
+
+
+  
+<script>
+document.getElementById('contact-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Estos IDs los sacas de tu panel de EmailJS
+    const serviceID = 'service_ppc0l1c';
+    const templateID = 'template_vf9t5kb';
+
+    emailjs.sendForm(serviceID, templateID, this)
+        .then(() => {
+            alert('¡Enviado con éxito! 🚀');
+        }, (err) => {
+            alert('Error al enviar: ' + JSON.stringify(err));
+        });
+});
+</script>
+  </div>
+
+
+
+
+    <div class="contact-section">
+        <div class="contact-info">
+          <h2>Horarios de la tienda</h2>
+          <div id="listaHorarios" class="loading">Cargando horarios...</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://cbtvetmvxvxhidsgpcoh.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNidHZldG12eHZ4aGlkc2dwY29oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4MzM4NzMsImV4cCI6MjA4NzQwOTg3M30.kphDJaqTCBzHuDSraol0gaDOTMfYf7eHNHaQGy3Ab7o';
+        
+        const _supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const listaHorarios = document.getElementById('listaHorarios');
+        const diasOrdenados = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+
+        async function mostrarHorarios() {
+            let { data, error } = await _supabase
+                .from('Horarios') 
+                .select('Dia, hora');
+
+            if (error) {
+                listaHorarios.innerHTML = "Error al cargar los horarios.";
+                return;
+            }
+
+            // Convertimos los datos a un objeto para ordenarlos fácilmente
+            const mapeo = {};
+            data.forEach(item => mapeo[item.Dia] = item.hora);
+
+            // Generamos el HTML respetando el orden de la semana
+            const html = diasOrdenados.map(dia => {
+                let horaTexto = mapeo[dia] || "Cerrado";
+                
+                // Si la hora es 00:00 - 00:00, mostramos "Cerrado"
+                if (horaTexto === "00:00 - 00:00") {
+                    horaTexto = '<span class="cerrado">Cerrado</span>';
+                }
+
+                return `
+                    <div class="dia-fila">
+                        <span class="dia-nombre">${dia}:</span>
+                        <span class="dia-hora">${horaTexto}</span>
+                    </div>
+                `;
+            }).join('');
+
+            listaHorarios.classList.remove('loading');
+            listaHorarios.innerHTML = html;
+        }
+
+        mostrarHorarios();
+    </script>
+
+  <div class="social-media" style="text-align:center; margin-top:40px;">
+<h2 style="color:#ff3fa8; text-shadow:1px 1px 4px rgba(0,0,0,0.1);">Síguenos en redes</h2>
+<p class="social-list">
+  <a class="social-item" href="https://www.instagram.com/xamarandulces/" aria-label="Instagram">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/250px-Instagram_logo_2016.svg.png" alt="Instagram">
+    <span class="social-label">Instagram</span>
+  </a>
+  <a class="social-item" href="https://www.tiktok.com/@xamarandulces?_t=ZN-8xuL9YwGrF0&_r=1" aria-label="TikTok">
+    <img src="https://fatimamartinez.es/wp-content/uploads/2019/11/Logo-tik-tok-1.png" alt="TikTok">
+    <span class="social-label">TikTok</span>
+  </a>
+  <a class="social-item" href="https://whatsapp.com/channel/0029VbBCxBq2975Du74puc0g" aria-label="WhatsApp Canal">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/960px-WhatsApp.svg.png" alt="TikTok">
+    <span class="social-label">WhatsApp Canal</span>
+  </a>
+</p>
+</div>
+
+
+
+  <footer>
+    <p>Txutxe Denda - Xamarian © 2025</p>
+  </footer>
+  
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<script type="text/javascript">
+  (function() {
+    emailjs.init("6XHWOcP7oLjlypyOP");
+  })();
+</script>
+<!-- Script: cargar y mostrar horarios guardados desde Config.html -->
+<script>
+  (function(){
+    const STORAGE_KEY = 'xamaran_horarios_v1';
+    const days = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+
+    function loadHorarios(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : null;
+      }catch(e){ console.warn('Error leyendo horarios:', e); return null; }
+    }
+
+    function render(obj){
+      const container = document.getElementById('contactHorarios');
+      if(!container) return;
+      if(!obj){ container.innerHTML = '<p>No hay horarios configurados.</p>'; return; }
+      const html = days.map(d => {
+        const e = obj[d];
+        if(!e || !e.start || !e.end) return `<p><b>${d}:</b> Cerrado</p>`;
+        return `<p><b>${d}:</b> ${e.start} - ${e.end}</p>`;
+      }).join('');
+      container.innerHTML = html;
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
+      render(loadHorarios());
+    });
+  })();
+</script>
+  <div class="sticky-contact" aria-label="Enlace rápido Xamaran">
+    <img class="sticky-contact__img" src="img/XamaranLogo.png" alt="Logo Xamaran">
+    <div class="sticky-contact__content">
+      <div class="sticky-contact__info">
+        <span class="sticky-contact__name">Xamaran</span>
+        <span class="sticky-contact__subtitle">¿Necesitas ayuda?</span>
+      </div>
+      <a class="sticky-contact__btn" href="https://wa.me/34946066039" target="_blank" rel="noopener">Abrir WhatsApp</a>
+    </div>
+  </div>
+</body>
+</html>

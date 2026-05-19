@@ -1,0 +1,525 @@
+  header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5%;
+}
+
+.carrito-header {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.carrito-icono {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.carrito-info span {
+  display: block;
+  font-weight: bold;
+}
+
+/* Estilos del Botón Seleccionar */
+.btn-seleccionar {
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.btn-seleccionar:hover {
+  background-color: #e67e22;
+}
+
+/* Modal del Carrito */
+.modal-carrito {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0; top: 0; width: 100%; height: 100%;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.75) 60%);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 30px 16px;
+}
+
+.modal-contenido {
+  background: linear-gradient(135deg, #fff0f8 0%, #ffe6fb 45%, #ffd6f5 100%);
+  margin: 6% auto;
+  padding: 18px;
+  width: 92%;
+  max-width: 520px;
+  border-radius: 16px;
+  color: #2b132b;
+  border: 4px solid rgba(255,102,196,0.18);
+  box-shadow: 0 18px 40px rgba(138,43,226,0.18);
+  font-family: 'Segoe UI', Roboto, system-ui, -apple-system, 'Helvetica Neue', Arial;
+  position: relative;
+}
+
+.modal-contenido h2{
+  margin-top: 0;
+  color: #ff2fa0;
+  text-align: center;
+  font-size: 1.5rem;
+  text-shadow: 0 2px 6px rgba(255,63,168,0.12);
+}
+
+.cerrar-modal{
+  position: absolute;
+  right: 18px;
+  top: 12px;
+  font-size: 28px;
+  cursor: pointer;
+  color: #9b0f6b;
+  background: linear-gradient(90deg, rgba(255,255,255,0.6), rgba(255,255,255,0.2));
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid rgba(255,63,168,0.15);
+}
+
+#lista-carrito{ list-style: none; padding: 6px 0; margin: 6px 0 12px 0; max-height: 260px; overflow:auto; }
+#lista-carrito li{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  margin: 8px 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.6), rgba(255,240,250,0.6));
+  border-radius: 10px;
+  border: 1px solid rgba(255,102,196,0.12);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+  font-size: 0.95rem;
+}
+
+.lista-info{
+  display:flex; flex-direction:column; gap:4px; max-width:70%;
+}
+.lista-subtotal{ font-weight:800; color:#7a0b6b }
+
+.modal-total-row{ display:flex; justify-content:space-between; align-items:center; margin-top:12px; padding-top:8px; border-top:1px dashed rgba(255,102,196,0.15); }
+.modal-total-row strong{ color:#c2007a; font-size:1.15rem }
+
+/* boton limpiar o confirmar dentro del modal (opcional) */
+.modal-actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:12px }
+.modal-actions button{ background:#ff66c4; color:white; border:none; padding:8px 12px; border-radius:8px; cursor:pointer }
+.modal-actions button.secondary{ background:transparent; color:#c2007a; border:1px solid rgba(194,0,122,0.12) }
+/* Form fields inside modal */
+.modal-form{ display:flex; flex-direction:column; gap:8px; margin-top:12px }
+.modal-form label{ font-size:0.9rem; color:#6b0b4f }
+.modal-form input{ padding:8px 10px; border-radius:8px; border:1px solid rgba(0,0,0,0.08); font-size:0.95rem }
+.modal-form input:focus{ outline:none; box-shadow: 0 6px 18px rgba(255,102,196,0.12); border-color:#ff66c4 }
+
+/* Toggle button for showing more/less items */
+.lista-toggle{ display:flex; justify-content:center; }
+.btn-toggle{ background:transparent; border:1px dashed rgba(194,0,122,0.18); color:#c2007a; padding:6px 10px; border-radius:8px; cursor:pointer }
+.btn-toggle:hover{ background: rgba(255,102,196,0.06); }
+
+.carrito-summary{ display:flex; gap:10px; align-items:center; justify-content:space-between; padding:6px 4px; margin-bottom:8px; color:#5a0a4a }
+.carrito-summary span{ font-weight:700 }
+
+/* Estilo botón eliminar por fila */
+.btn-eliminar{ background:transparent; color:#b71b6f; border:1px solid rgba(183,27,111,0.12); padding:6px 8px; border-radius:8px; cursor:pointer; margin-left:12px }
+.btn-eliminar:hover{ background: rgba(183,27,111,0.06); }
+
+/* Animación para botella que rota hacia abajo y cambia a imagen derramada */
+.imagenbotella{
+  display:inline-block;
+  transform-origin: center top;
+  cursor: pointer;
+  transition: transform 300ms ease;
+  top: 0;
+}
+.rotar-botella{
+  animation: rotar45 700ms cubic-bezier(.2,.8,.2,1) forwards;
+}
+@keyframes rotar45{
+  0% { transform: rotate(0deg); }
+  70% { transform: rotate(32deg); }
+  100% { transform: rotate(45deg); }
+}
+   
+   .section-block {
+      padding: 50px 20px;
+      margin: 40px 0;
+      border-radius: 25px;
+      border: 4px dashed #ff66c4;
+      background: linear-gradient(135deg, #ffffffcc, #ffd6f5cc);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    }
+
+    .section-block h2 {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+      color: #ff3fa8;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      border: 3px solid #ff66c4;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+
+    .card img {
+      width: 40%;
+      border-radius: 15px;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #ff66c4;
+    }
+
+   
+
+  .paquete{
+    display: block;
+    position: relative;
+    width: 220px;
+    height: 240px;
+    max-width: calc(100% - 40px);
+    margin: 0 auto 20px auto;
+    text-align: center;
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(135deg,#8a2be2 0%, #b16aff 50%, #ffd6f5 100%);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.04);
+    transition: transform .22s cubic-bezier(.2,.9,.3,1), box-shadow .22s ease;
+    justify-self: center; /* center within grid cell */
+    padding: 12px;
+  }
+
+  .imagenpaquete{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* keeps aspect and fills circle */
+    display: block;
+    position: relative;
+    will-change: transform;
+    transition: transform .25s ease;
+  }
+
+  /* Label overlay for clear text (e.g., 'Snack') */
+  .paquete-label{
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    display: inline-block;
+    padding: 8px 12px;
+    background: rgba(18,18,18,0.72);
+    color: #fff;
+    font-weight:800;
+    font-size: 1rem;
+    text-align:center;
+    border-radius:10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    pointer-events:none;
+  }
+
+  /* Uniform size for chocolate images */
+  .imagenchocolate{
+    width: 160px;
+    max-width: 80%;
+    height: 150px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    border-radius: 12px;
+    bottom: 0;
+    }
+    /* move chocolate slightly down inside its paquete */
+    .paquete .imagenchocolate{
+      transform: translateY(25px);
+      transition: transform .25s ease;
+    }
+
+    /* Uniform size for helado images (same as chocolate) */
+    .imagenhelado{
+      width: 160px;
+      max-width: 80%;
+      height: 150px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      border-radius: 12px;
+      bottom: 0;
+    }
+    /* move helado slightly down inside its paquete */
+    .paquete .imagenhelado{
+      transform: translateY(25px);
+      transition: transform .25s ease;
+    }
+
+    @media (max-width: 480px) {
+      .paquete .imagenchocolate{ transform: translateY(12px); }
+    }
+  
+
+  .paquete:hover{
+    transform: translateY(-10px) scale(1.04);
+    box-shadow: 0 26px 48px rgba(0,0,0,0.22);
+  }
+
+  /* play shake once per hover to avoid continuous movement */
+  .paquete:hover .imagenpaquete {
+    animation: shake .6s linear 1;
+  }
+
+  @keyframes shake {
+    0% { transform: translateX(0) rotate(0deg); }
+    10% { transform: translateX(-6px) rotate(-3deg); }
+    20% { transform: translateX(6px) rotate(3deg); }
+    30% { transform: translateX(-4px) rotate(-2deg); }
+    40% { transform: translateX(4px) rotate(2deg); }
+    50% { transform: translateX(-2px) rotate(-1deg); }
+    60% { transform: translateX(2px) rotate(1deg); }
+    70% { transform: translateX(-1px) rotate(-0.5deg); }
+    80% { transform: translateX(1px) rotate(0.5deg); }
+    100% { transform: translateX(0) rotate(0deg); }
+  }
+
+    footer {
+      background: #ff66c4;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+
+    }
+
+.r1, .r2, .r3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 80px; /* Ajustado para que no se salgan del círculo */
+  width: auto;
+  object-fit: contain;
+  /* El secreto: el primer translate(-50%, -50%) las centra perfectamente */
+  transform: translate(-50%, -50%);
+  will-change: transform;
+}
+
+/* Por defecto están quietas (sin animación) */
+.r1 { transform: translate(-80%, -20%) }
+.r2 { transform: translate(-50%, -80%)}
+.r3 { transform: translate(-20%, -20%)}
+/* 4. Animación de malabarismo centrada */
+@keyframes swap {
+  0%, 100% {
+    /* Centro + un poco a la izquierda y abajo */
+    transform: translate(-80%, -20%) scale(1);
+    z-index: 1;
+  }
+  33% {
+    /* Centro + arriba */
+    transform: translate(-50%, -80%) scale(1.1);
+    z-index: 3;
+  }
+  66% {
+    /* Centro + un poco a la derecha y abajo */
+    transform: translate(-20%, -20%) scale(1);
+    z-index: 2;
+  }
+}
+
+
+/* Iniciar la animación solo al pasar el ratón sobre el paquete */
+.paquete:hover .r1 { animation: swap 6s infinite ease-in-out; animation-delay: 0s; }
+.paquete:hover .r2 { animation: swap 6s infinite ease-in-out; animation-delay: -2s; }
+.paquete:hover .r3 { animation: swap 6s infinite ease-in-out; animation-delay: -4s; }
+
+.imagenlata{
+      width: 100%;
+      max-width: 80%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      border-radius: 12px;
+      bottom: -12;
+    }
+
+/* Frutos secos: imágenes apiladas, suben al pasar y bajan de forma independiente
+   Nota: NO se cambia el tamaño del contenedor `.paquete` (se respeta el layout). */
+#menufrutossecos img {
+  position: absolute;
+  left: 50%;
+  bottom: 34px;
+  /* variables por imagen: --lx (offset X) y --ly (offset Y para lift, por defecto 0) */
+  --lx: 0px;
+  --ly: 0;
+  transform: translateX(calc(-50% + var(--lx))) translateY(var(--ly));
+  width: 80px;
+  height: auto;
+  transition: transform 300ms ease;
+  will-change: transform;
+}
+
+/* Al aplicar .lift, las imágenes se posicionan hacia arriba usando variables específicas por imagen */
+#menufrutossecos.lift img { /* base: todas suben */
+  --ly: -100%;
+}
+/* direcciones fijas por imagen: 1 izquierda-arriba, 2 derecha-arriba, 3 arriba, 4 arriba */
+#menufrutossecos.lift img.imagenfrutoseco1 { --lx: -40px; }
+#menufrutossecos.lift img.imagenfrutoseco2 { --lx:  40px; }
+#menufrutossecos.lift img.imagenfrutoseco3 { --lx:   0px; }
+#menufrutossecos.lift img.imagenfrutoseco4 { --lx:   0px; }
+
+/* Al aplicar .fall, reproducimos una animación que va de la posición "lift" a la base (bottom)
+   La animación usa las mismas variables --lx/--ly para mantener la posición X durante la caída. */
+#menufrutossecos.fall img {
+  animation-name: frutoscaida;
+  animation-duration: 700ms;
+  animation-timing-function: cubic-bezier(.2,.8,.2,1);
+  animation-fill-mode: forwards;
+}
+@keyframes frutoscaida {
+  from { transform: translateX(calc(-50% + var(--lx))) translateY(var(--ly)); }
+  to   { transform: translateX(calc(-50% + var(--lx))) translateY(0); }
+}
+
+/* pequeños ajustes responsivos */
+@media (max-width:480px){
+  #menufrutossecos img { width: 64px }
+}
+
+/* Galleta: aparece desde la izquierda, gira mientras cruza hacia la derecha del div */
+#menugalletas { /* .paquete ya es relative; overflow clipped por defecto */ }
+#menugalletas .imagengalleta{
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  width: 340px;
+  height: auto;
+  z-index: 6;
+  will-change: transform, left;
+}
+
+#menuotros{
+  width: 100%;
+}
+/* El movimiento se controla por JS: primero 'galletaExit' (sale hacia la derecha girando),
+   luego 'galletaEnter' (aparece por la izquierda y vuelve al centro). */
+@keyframes galletaExit {
+  0% {
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    left: 140%;
+    transform: translate(-50%, -50%) rotate(720deg);
+  }
+}
+@keyframes galletaEnter {
+  0% {
+    left: -40%;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+#contenedor-productos{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.producto-card {
+  border: 2px dashed #ff66c4; 
+  padding: 10px; 
+  margin: 10px; 
+  border-radius: 8px; 
+  display: inline-block; 
+  width: 200px; 
+  text-align: center; 
+  background-color: white; 
+  vertical-align: top;
+}
+
+.producto-card img {
+  width:100px; 
+  height: 100px; 
+  object-fit: cover; 
+  border-radius: 4px;
+}
+
+.producto-card h3 {
+  color: #ff66c4; 
+  margin: 10px 0;
+}
+
+.producto-card .precio {
+  color: purple; 
+  font-size: 18px;
+}
+
+.producto-card .descripcion {
+  font-size: 12px; 
+  color: grey; 
+  margin-top: 5px;
+}
+.producto-card:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+}
+
+    .buscador-container {
+      margin: 20px 0;
+      text-align: center;
+      padding: 0 15px;
+    }
+
+    #buscador-nombre {
+      width: 100%;
+      max-width: 500px;
+      padding: 12px 25px;
+      border: 2px solid #e0e0e0;
+      border-radius: 30px;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    #buscador-nombre:focus {
+      border-color: #f39c12;
+      box-shadow: 0 4px 10px rgba(243, 156, 18, 0.2);
+    }

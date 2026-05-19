@@ -1,0 +1,78 @@
+body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: #fceaff;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(90deg, #ff9ad8, #a1d8ff, #ffe18a);
+      padding: 20px;
+      text-align: center;
+      border-bottom: 6px solid #ff66c4;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    }
+
+    nav {
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 15px;
+      border-bottom: 4px dashed #ff66c4;
+      position: sticky;
+      top: 92px;
+      z-index: 999;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-size: 1.2rem;
+      color: #ff66c4;
+      font-weight: bold;
+    }
+    footer a {
+      text-decoration: none;
+      font-weight: bold;
+      
+    }
+
+/* Sticky contact widget shared across pages (except Config.html) */
+.sticky-contact{
+  position:fixed;
+  right:16px;
+  bottom:16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background: rgba(255,255,255,0.96);
+  padding:8px 12px;
+  border-radius:28px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  z-index:9999;
+  backdrop-filter: blur(4px);
+}
+.sticky-contact__img{ width:36px; height:36px; border-radius:50%; object-fit:cover; flex-shrink:0; }
+.sticky-contact__content{ display:flex; align-items:center; gap:10px; }
+.sticky-contact__info{ display:flex; flex-direction:column; line-height:1; }
+.sticky-contact__name{ font-weight:800; color:#ff3fa8; font-size:0.95rem; }
+.sticky-contact__subtitle{ font-size:0.78rem; color:#666; font-weight:600; }
+.sticky-contact__btn{ background:#ff66c4; color:#fff; text-decoration:none; padding:6px 10px; border-radius:18px; font-weight:700; font-size:0.9rem; box-shadow: 0 4px 8px rgba(255,102,196,0.18); }
+.sticky-contact__btn:focus,.sticky-contact__btn:hover{ filter:brightness(0.96); }
+
+@media (max-width:480px){
+  .sticky-contact{ left:12px; right:12px; justify-content:space-between; padding:8px 10px; gap:8px; }
+  .sticky-contact__name{ display:block; font-size:0.55rem; color:#ff3fa8; font-weight:800 }
+  .sticky-contact__subtitle{ display:block; font-size:0.72rem; color:#666; font-weight:600 }
+  .sticky-contact__img{ width:34px; height:34px }
+  .sticky-contact__btn{ padding:6px 8px; font-size:0.85rem }
+}
