@@ -75,5 +75,5 @@ body {
   .sticky-contact__subtitle{ display:block; font-size:0.72rem; color:#666; font-weight:600 }
   .sticky-contact__img{ width:34px; height:34px }
   .sticky-contact__btn{ padding:6px 8px; font-size:0.85rem }
-  nav{ top: 180px;}
+  nav{ top: 113px; }
 }
